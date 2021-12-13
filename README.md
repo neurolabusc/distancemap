@@ -8,6 +8,10 @@ This repository demonstrates that the separable solution provides as implemented
 
 ## Validation Images
 
+Binary NIfTI format images are provided. The goal is to generate a new image where every voxel encodes the shortest distance to a white voxel. The image below shows an input image (top) and the corresponding EDT image (below).
+
+![example EDT](example.jpg)
+
 Four sample NIfTI format binary images are provided. They vary in terms of the number of voxels (allowing us to assess how speed scales with image size) and anisotropy. Anisotrpy refers to the fact that the spatial distance between voxels centers varies between the rows, columns and slices. There are [several solutions](https://github.com/seung-lab/euclidean-distance-transform-3d) to handling this. niimath implements the method of AFNI's thd_euler_dist [scale each input to unity prior](https://github.com/afni/afni/blob/a33c64ef809bb54e7002c52d2206a61722837b94/src/thd_euler_dist.c#L602) to parabola calculation and [subsequently scale back to grid space](https://github.com/afni/afni/blob/a33c64ef809bb54e7002c52d2206a61722837b94/src/thd_euler_dist.c#L634). Unlike AFNI, niimath does not permute the order of slices, rows and columns based on anisotropy. The AFNI code notes that this permute was applied [to avoid pathology in the EDT alg (that miiiight have only existed in earlier calc method, but it still makes sense to do---why not?)](https://github.com/afni/afni/blob/a33c64ef809bb54e7002c52d2206a61722837b94/src/thd_euler_dist.c#L205). The purpose of these validations is to demonstrate that one can get accurate results without this permutation stage.
 
  - i111 voxels 12792000 dim 208×300×205 pixdim 0.8×0.8×0.8
